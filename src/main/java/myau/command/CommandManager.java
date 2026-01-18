@@ -28,7 +28,8 @@ public class CommandManager {
             for (Command command : Myau.commandManager.commands) {
                 for (String name : command.names) {
                     if (params.get(0).equalsIgnoreCase(name)) {
-                        command.runCommand(arrayList);
+                        ArrayList<String> argsWithoutCommand = new ArrayList<>(arrayList.subList(1, arrayList.size()));
+                        command.runCommand(argsWithoutCommand);
                         return;
                     }
                 }

@@ -3,9 +3,13 @@ package myau.mixin;
 import myau.Myau;
 import myau.module.modules.AutoBlockIn;
 import myau.module.modules.Scaffold;
+import myau.util.DomainUtil;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.scoreboard.Team;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,5 +42,35 @@ public abstract class MixinGuiIngame {
             }
         }
         return inventoryPlayer.getCurrentItem();
+    }
+
+    @Redirect(
+            method = {"renderScoreboard"},
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/scoreboard/ScoreObjective;getDisplayName()Ljava/lang/String;"
+            )
+    )
+    private String redirectDisplayName(ScoreObjective objective) {
+        String name = objective.getDisplayName();
+        if (DomainUtil.isEnabled() && DomainUtil.containsDomain(name)) {
+            return DomainUtil.replaceDomain(name);
+        }
+        return name;
+    }
+
+    @Redirect(
+            method = {"renderScoreboard"},
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/scoreboard/ScorePlayerTeam;formatPlayerName(Lnet/minecraft/scoreboard/Team;Ljava/lang/String;)Ljava/lang/String;"
+            )
+    )
+    private String redirectFormatPlayerName(Team team, String playerName) {
+        String formatted = ScorePlayerTeam.formatPlayerName(team, playerName);
+        if (DomainUtil.isEnabled() && DomainUtil.containsDomain(formatted)) {
+            return DomainUtil.replaceDomain(formatted);
+        }
+        return formatted;
     }
 }

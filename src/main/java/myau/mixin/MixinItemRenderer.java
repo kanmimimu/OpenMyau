@@ -281,6 +281,8 @@ public abstract class MixinItemRenderer {
                 }
                 this.renderItem(player, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
             } else {
+                GlStateManager.popMatrix();
+                GlStateManager.disableRescaleNormal();
                 return;
             }
         } else if (!player.isInvisible()) {
