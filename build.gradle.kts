@@ -4,7 +4,7 @@ plugins {
     java
     id("gg.essential.loom") version "0.10.0.+"
     id("dev.architectury.architectury-pack200") version "0.1.3"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 //Constants:
 val baseGroup: String by project
@@ -23,7 +23,6 @@ loom {
     log4jConfigs.from(file("log4j2.xml"))
     launchConfigs {
         "client" {
-            // If you don't want mixins, remove these lines
             property("mixin.debug", "true")
             arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
         }
@@ -31,9 +30,9 @@ loom {
     runConfigs {
         "client" {
             if (SystemUtils.IS_OS_MAC_OSX) {
-                // This argument causes a crash on macOS
                 vmArgs.remove("-XstartOnFirstThread")
             }
+            ideConfigGenerated(true)
         }
         remove(getByName("server"))
     }
@@ -73,6 +72,7 @@ dependencies {
         isTransitive = false
     }
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT")
+    annotationProcessor("com.google.code.gson:gson:2.10.1")
     // If you don't want to log in with your real minecraft account, remove this line
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.2.1")
 }
@@ -124,3 +124,9 @@ tasks.shadowJar {
     fun relocate(name: String) = relocate(name, "$baseGroup.deps.$name")
 }
 tasks.assemble.get().dependsOn(tasks.remapJar)
+
+afterEvaluate {
+    tasks.named<JavaExec>("runClient") {
+        executable("C:/Users/kanmimimu/.jdks/azul-1.8.0_472/bin/java.exe")
+    }
+}

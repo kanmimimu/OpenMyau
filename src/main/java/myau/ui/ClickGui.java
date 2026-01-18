@@ -61,6 +61,7 @@ public class ClickGui extends GuiScreen {
         movementModules.add(Myau.moduleManager.getModule(AntiVoid.class));
 
         List<Module> renderModules = new ArrayList<>();
+        renderModules.add(Myau.moduleManager.getModule(Animations.class));
         renderModules.add(Myau.moduleManager.getModule(ESP.class));
         renderModules.add(Myau.moduleManager.getModule(Chams.class));
         renderModules.add(Myau.moduleManager.getModule(FullBright.class));
