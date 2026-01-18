@@ -6,11 +6,11 @@ import myau.event.types.Priority;
 import myau.events.MoveInputEvent;
 import myau.events.TickEvent;
 import myau.module.Module;
+import myau.property.properties.BooleanProperty;
+import myau.property.properties.IntProperty;
 import myau.util.ItemUtil;
 import myau.util.MoveUtil;
 import myau.util.PlayerUtil;
-import myau.property.properties.BooleanProperty;
-import myau.property.properties.IntProperty;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.RandomUtils;
 import org.lwjgl.input.Keyboard;
@@ -37,7 +37,7 @@ public class Eagle extends Module {
             return false;
         } else if (this.pitchCheck.getValue() && mc.thePlayer.rotationPitch < 69.0F) {
             return false;
-        } else if(sneakOnly.getValue() && !Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())){
+        } else if (sneakOnly.getValue() && !Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode())) {
             return false;
         } else {
             return (!this.blocksOnly.getValue() || ItemUtil.isHoldingBlock()) && mc.thePlayer.onGround;
@@ -64,13 +64,13 @@ public class Eagle extends Module {
     public void onMoveInput(MoveInputEvent event) {
         if (this.isEnabled() && mc.currentScreen == null) {
 
-            if(sneakOnly.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode()) && shouldSneak()){
+            if (sneakOnly.getValue() && Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode()) && shouldSneak()) {
                 mc.thePlayer.movementInput.sneak = false;
                 mc.thePlayer.movementInput.moveForward /= 0.3F;
                 mc.thePlayer.movementInput.moveStrafe /= 0.3F;
             }
 
-            if(!mc.thePlayer.movementInput.sneak) {
+            if (!mc.thePlayer.movementInput.sneak) {
                 if (this.shouldSneak() && (this.sneakDelay > 0 || this.canMoveSafely())) {
                     mc.thePlayer.movementInput.sneak = true;
                     mc.thePlayer.movementInput.moveStrafe *= 0.3F;

@@ -52,7 +52,8 @@ public class Animations extends Module {
     public boolean isFakeBlockActive() {
         if (!this.isEnabled() || !fakeBlock.getValue()) return false;
         if (mc.thePlayer == null) return false;
-        if (mc.thePlayer.getHeldItem() == null || !(mc.thePlayer.getHeldItem().getItem() instanceof ItemSword)) return false;
+        if (mc.thePlayer.getHeldItem() == null || !(mc.thePlayer.getHeldItem().getItem() instanceof ItemSword))
+            return false;
         return !fakeBlockOnlySwing.getValue() || mc.thePlayer.isSwingInProgress;
     }
 

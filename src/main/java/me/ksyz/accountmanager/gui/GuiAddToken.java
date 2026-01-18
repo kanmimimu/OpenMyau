@@ -26,9 +26,9 @@ public class GuiAddToken extends GuiScreen {
     private final GuiScreen previousScreen;
     private final String state;
 
-    private GuiButton openButton = null;
+    private final GuiButton openButton = null;
     private boolean openButtonEnabled = true;
-    private GuiButton cancelButton = null;
+    private final GuiButton cancelButton = null;
     private String status = null;
     private String cause = null;
     private ExecutorService executor = null;
@@ -46,7 +46,7 @@ public class GuiAddToken extends GuiScreen {
         buttonList.clear();
         Keyboard.enableRepeatEvents(true);
         ScaledResolution sr = new ScaledResolution(mc);
-        tokenField = new GuiTextField(1, mc.fontRendererObj,sr.getScaledWidth() / 2 - 100, sr.getScaledHeight() / 2, 200, 20);
+        tokenField = new GuiTextField(1, mc.fontRendererObj, sr.getScaledWidth() / 2 - 100, sr.getScaledHeight() / 2, 200, 20);
         tokenField.setMaxStringLength(32767);
         tokenField.setFocused(true);
 
@@ -117,7 +117,7 @@ public class GuiAddToken extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) {
         tokenField.textboxKeyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_ESCAPE) {
-            if(task == null || task.isDone() || task.isCancelled() || task.isCompletedExceptionally()){
+            if (task == null || task.isDone() || task.isCancelled() || task.isCompletedExceptionally()) {
                 mc.displayGuiScreen(previousScreen);
             }
         }
@@ -171,7 +171,7 @@ public class GuiAddToken extends GuiScreen {
                             .thenAccept(session -> {
                                 status = null;
                                 Account acc = new Account(
-                                        refreshToken.get(), accessToken.get(), session.getUsername(),"00000000402b5328","service::user.auth.xboxlive.com::MBI_SSL"
+                                        refreshToken.get(), accessToken.get(), session.getUsername(), "00000000402b5328", "service::user.auth.xboxlive.com::MBI_SSL"
                                 );
                                 for (Account account : AccountManager.accounts) {
                                     if (acc.getUsername().equals(account.getUsername())) {
